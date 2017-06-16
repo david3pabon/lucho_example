@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 class ImageViewHolder(itemView: View) : ExampleAdapter.ViewHolder<Data>(itemView) {
 
     override fun onBindViewHolder(model: Data) {
-        val image = itemView.findViewById(R.id.name_txt) as ImageView
+        val image = itemView.findViewById(R.id.image_img) as ImageView
         Picasso.with(itemView.context).load(model.value).into(image)
     }
 }
