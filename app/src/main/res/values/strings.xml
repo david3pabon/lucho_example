@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">lucho_example</string>
+    <string name="error_message">Can\'t render row</string>
 </resources>

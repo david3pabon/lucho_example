@@ -32,7 +32,12 @@ fun jsonToObject(json: String) : MutableList<Data> {
         (0 .. (jsonArray.length() - 1))
                 .forEach {
                     val jsonObject = jsonArray.getJSONObject(it)
-                    result.add(Data(jsonObject.getInt("type"), jsonObject.getString("value")))
+
+                    if (jsonObject.getInt("type") == Data.TYPE_TEXT) {
+                        result.add(DataText(jsonObject.getInt("type"), jsonObject.getString("value")))
+                    } else {
+                        result.add(DataImage(jsonObject.getInt("type"), jsonObject.getString("value")))
+                    }
                 }
     } catch (e: Exception) {
         //Handle error

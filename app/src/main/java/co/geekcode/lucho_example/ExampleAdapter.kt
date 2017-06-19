@@ -8,21 +8,24 @@ import android.view.ViewGroup
 /**
  * Created by Owner on 6/15/2017.
  */
+class ExampleAdapter : RecyclerView.Adapter<ExampleAdapter.ViewHolder>() {
 
-class ExampleAdapter : RecyclerView.Adapter<ExampleAdapter.ViewHolder<Data>>() {
+    private var dataList: MutableList<Data> = mutableListOf()
 
-    private val dataList: MutableList<Data> = mutableListOf()
+    val viewByDataType = hashMapOf(
+            Data.TYPE_TEXT to R.layout.row_text,
+            Data.TYPE_IMAGE to R.layout.row_image)
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ExampleAdapter.ViewHolder<Data>
-            = when (viewType) {
-                Data.TYPE_IMAGE -> getImageView(viewGroup)
-                else -> getTextView(viewGroup)
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            ExampleAdapter.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(viewByDataType[viewType]!!, parent, false)
+        return ExampleAdapter.ViewHolder(v)
+    }
 
     override fun getItemViewType(i: Int): Int = dataList[i].type
 
-    override fun onBindViewHolder(holder: ExampleAdapter.ViewHolder<Data>, i: Int) {
-        holder.onBindViewHolder(dataList[i])
+    override fun onBindViewHolder(vh: ExampleAdapter.ViewHolder, i: Int) {
+        onBindHolder(dataList[i], vh.itemView)
     }
 
     override fun getItemCount(): Int = dataList.size
@@ -33,16 +36,5 @@ class ExampleAdapter : RecyclerView.Adapter<ExampleAdapter.ViewHolder<Data>>() {
         notifyDataSetChanged()
     }
 
-    private fun getTextView(viewGroup: ViewGroup) : TextViewHolder {
-        return TextViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.row_text, viewGroup, false))
-    }
-
-    private fun getImageView(viewGroup: ViewGroup) : ImageViewHolder {
-        return ImageViewHolder(LayoutInflater.from(viewGroup.context).inflate(R.layout.row_image, viewGroup, false))
-    }
-
-    abstract class ViewHolder<in T: Model> (itemView: View) :
-             RecyclerView.ViewHolder(itemView) {
-        abstract fun onBindViewHolder(model: T)
-    }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
